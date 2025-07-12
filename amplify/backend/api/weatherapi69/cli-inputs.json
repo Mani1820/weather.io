@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "paths": {
+    "/weatherdata": {
+      "name": "/weatherdata",
+      "lambdaFunction": "weatherData69",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update"
+        ]
+      }
+    }
+  }
+}

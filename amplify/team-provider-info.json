@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-weatherapp-dev-04ae8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::773448521248:role/amplify-weatherapp-dev-04ae8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::773448521248:role/amplify-weatherapp-dev-04ae8-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-weatherapp-dev-04ae8-deployment",
+      "UnauthRoleName": "amplify-weatherapp-dev-04ae8-unauthRole",
+      "StackName": "amplify-weatherapp-dev-04ae8",
+      "StackId": "arn:aws:cloudformation:ap-south-1:773448521248:stack/amplify-weatherapp-dev-04ae8/ee8715a0-5e6a-11f0-9c87-020ab519482b",
+      "AmplifyAppId": "ddae9c2dzsg4n",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-weatherapp-dev-04ae8-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "auth": {
+        "weatherappdd744e33": {}
+      },
+      "function": {
+        "weatherData69": {
+          "deploymentBucketName": "amplify-weatherapp-dev-04ae8-deployment",
+          "s3Key": "amplify-builds/weatherData69-4736512f46664c386469-build.zip"
+        }
+      },
+      "storage": {
+        "dynamo60116342": {}
+      },
+      "api": {
+        "weatherapi69": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "api": {
+    "weatherapi69": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "weatherData69"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "weatherappdd744e33": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL",
+          "PHONE_NUMBER"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "weatherData69": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamo60116342"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_weatherData69_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "weatherData69"
+        }
+      ]
+    },
+    "AMPLIFY_function_weatherData69_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "weatherData69"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamo60116342": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}
