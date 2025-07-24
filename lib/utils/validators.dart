@@ -17,3 +17,23 @@ String? passwordValidator(String? password) {
   }
   return null;
 }
+
+String? confirmPasswordValidator(String? password, String? confirmPassword) {
+  if (confirmPassword == null || confirmPassword.isEmpty) {
+    return 'Confirm password is required';
+  }
+  if (password != confirmPassword) {
+    return 'Passwords do not match';
+  }
+  return null;
+}
+
+String? phoneNumberValidator(String? phoneNumber) {
+  if (phoneNumber == null || phoneNumber.isEmpty) {
+    return 'Phone number is required';
+  }
+  if (phoneNumber.length != 10) {
+    return 'Phone number must be 10 digits';
+  }
+  return null;
+}

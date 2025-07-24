@@ -18,7 +18,7 @@ class CommonBody extends StatelessWidget {
             ColorConstants.secondaryOrageColor,
           ],
           begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          end: Alignment.bottomCenter,
         ),
       ),
       child: Center(child: SingleChildScrollView(child: child)),

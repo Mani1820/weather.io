@@ -9,6 +9,7 @@ import 'package:weather_app/common/common_textfield.dart';
 import 'package:weather_app/constants/constants.dart';
 import 'package:weather_app/provider/Auth/auth_controller.dart';
 import 'package:weather_app/provider/Auth/auth_provider.dart';
+import 'package:weather_app/screens/Auth/register_screen.dart';
 import 'package:weather_app/utils/validators.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -42,7 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Center(
                   child: LoadingAnimationWidget.staggeredDotsWave(
                     color: ColorConstants.secondaryOrageColor,
-                    size: 200,
+                    size: 100,
                   ),
                 ),
               )
@@ -57,14 +58,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       width: size.width,
       decoration: BoxDecoration(
-        color: ColorConstants.cardPrimaryBackground,
+        color: const Color.fromARGB(121, 255, 240, 225),
         borderRadius: BorderRadius.circular(30.0),
       ),
       child: _buildFormColumn(authController),
     );
   }
 
-  Widget _buildFormColumn(authController,) {
+  Widget _buildFormColumn(authController) {
     final email = ref.watch(emailProvider);
     final password = ref.watch(passwordProvider);
     return Column(
@@ -128,11 +129,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: ColorConstants.cardPrimaryBackground,
           title: Text('Error'),
           content: Text(authError ?? ''),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: ColorConstants.orageTextColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -181,7 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         children: [
           WidgetSpan(
             child: GestureDetector(
-              onTap: () {},
+              onTap: onTapSignup,
               child: Text(
                 Constants.signUp,
                 style: TextStyle(
@@ -194,6 +202,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void onTapSignup() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+      (route) => false,
     );
   }
 }

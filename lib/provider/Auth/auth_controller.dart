@@ -60,19 +60,23 @@ class AuthController extends Notifier<void> {
   }
 
   Future<bool> initialCheck() async {
-    safePrint('--- initialCheck: START (Calling fetchAuthSession) ---'); // New log
+    safePrint('--- initialCheck: START (Calling fetchAuthSession) ---');
     final ref = this.ref;
     try {
-      final result = await Amplify.Auth.fetchAuthSession(); // <--- This is where it's hanging
-      safePrint('--- initialCheck: fetchAuthSession COMPLETED. Is signed in: ${result.isSignedIn} ---'); // New log
+      final result = await Amplify.Auth.fetchAuthSession();
+      safePrint(
+        '--- initialCheck: fetchAuthSession COMPLETED. Is signed in: ${result.isSignedIn} ---',
+      );
       if (result.isSignedIn) {
-        safePrint('--- initialCheck: User IS signed in, fetching current user ---'); // New log
+        safePrint(
+          '--- initialCheck: User IS signed in, fetching current user ---',
+        );
         final user = await Amplify.Auth.getCurrentUser();
         ref.read(userIdProvider.notifier).state = user.userId;
         ref.read(isAuthenticatedProvider.notifier).state = true;
-        safePrint('--- initialCheck: User ID set: ${user.userId} ---'); // New log
+        safePrint('--- initialCheck: User ID set: ${user.userId} ---');
       } else {
-        safePrint('--- initialCheck: User NOT signed in ---'); // New log
+        safePrint('--- initialCheck: User NOT signed in ---');
         ref.read(isAuthenticatedProvider.notifier).state = false;
       }
       return result.isSignedIn;
@@ -89,6 +93,78 @@ class AuthController extends Notifier<void> {
       return false;
     }
   }
+
+  Future<bool> register() async {
+    final ref = this.ref;
+
+    ref.read(registerErrorProvider.notifier).state = null;
+    final email = ref.watch(registerEmailProvider);
+    final password = ref.watch(registerPasswordProvider);
+    // final confirmPassword = ref.watch(registerConfirmPasswordProvider);
+    final number = ref.watch(registerNumberProvider);
+    ref.read(authLoadingProvider.notifier).state = true;
+    try {
+      final registerAttributes = {
+        AuthUserAttributeKey.phoneNumber: number,
+        AuthUserAttributeKey.email: email,
+      };
+      final result = await Amplify.Auth.signUp(
+        username: email,
+        password: password,
+        options: SignUpOptions(userAttributes: registerAttributes),
+      );
+      if (result.nextStep.signUpStep == AuthSignUpStep.confirmSignUp) {
+        return true;
+      }
+      return false;
+    } on AmplifyException catch (e) {
+      final errorMessage = e.message;
+      ref.read(authErrorProvider.notifier).state = errorMessage;
+      return false;
+    } finally {
+      ref.read(authLoadingProvider.notifier).state = false;
+    }
+  }
+
+  Future<bool> confirmSignUP() async {
+    final ref = this.ref;
+    ref.read(registerErrorProvider.notifier).state = null;
+    final email = ref.watch(registerEmailProvider);
+    final code = ref.watch(registrationCodeProvider);
+    ref.read(authLoadingProvider.notifier).state = true;
+    try {
+      final result = await Amplify.Auth.confirmSignUp(
+        username: email,
+        confirmationCode: code,
+      );
+      if (result.isSignUpComplete) {
+        await login();
+        return true;
+      }
+      return false;
+    } on AmplifyException catch (e) {
+      final errorMessage = e.message;
+      ref.read(authErrorProvider.notifier).state = errorMessage;
+      return false;
+    } finally {
+      ref.read(authLoadingProvider.notifier).state = false;
+    }
+  }
+
+  Future<void> resendConfirmationCode() async {
+    final ref = this.ref;
+    ref.read(registerErrorProvider.notifier).state = null;
+    final email = ref.watch(registerEmailProvider);
+    ref.read(authLoadingProvider.notifier).state = true;
+    try {
+      await Amplify.Auth.resendSignUpCode(username: email);
+    } on AmplifyException catch (e) {
+      final errorMessage = e.message;
+      ref.read(authErrorProvider.notifier).state = errorMessage;
+    } finally {
+      ref.read(authLoadingProvider.notifier).state = false;
+    }
+  }
 }
 
 final authControllerProvider = NotifierProvider<AuthController, void>(
@@ -96,8 +172,8 @@ final authControllerProvider = NotifierProvider<AuthController, void>(
 );
 
 final authCheckProvider = FutureProvider<bool>((ref) async {
-      final authController = ref.read(authControllerProvider.notifier);
-      final isSignedIn = await authController.initialCheck();
-      ref.read(isAuthenticatedProvider.notifier).state = isSignedIn;
-      return isSignedIn;
-    });
+  final authController = ref.read(authControllerProvider.notifier);
+  final isSignedIn = await authController.initialCheck();
+  ref.read(isAuthenticatedProvider.notifier).state = isSignedIn;
+  return isSignedIn;
+});

@@ -15,4 +15,12 @@ class Constants {
   static const String forgotpassword = "Forgot Password?";
   static const String dontHaveAccount = "Don't have an account? ";
   static const String signUp = "Register";
+
+  //register screen
+  static const String createAccount = "Create Account";
+  static const String phoneNumber = "Phone Number";
+  static const String phoneNumberHint = "Enter your phone number";
+  static const String confirmPassword = "Confirm Password";
+  static const String confirmPasswordHint = "Enter your confirm password";
+  static const String alreadyHaveAccount = "Already have an account? "; 
 }

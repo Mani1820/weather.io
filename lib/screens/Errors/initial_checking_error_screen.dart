@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/common/color_constants.dart';
 import 'package:weather_app/provider/Auth/auth_provider.dart';
@@ -22,10 +23,15 @@ class InitialCheckingErrorScreen extends ConsumerWidget {
               CircleAvatar(
                 radius: 50,
                 backgroundColor: ColorConstants.cardPrimaryBackground,
-                child: Icon(
-                  Icons.restart_alt,
-                  size: 50,
-                  color: ColorConstants.primaryTextColor,
+                child: InkWell(
+                  onTap: () {
+                    Phoenix.rebirth(context);
+                  },
+                  child: Icon(
+                    Icons.restart_alt,
+                    size: 50,
+                    color: ColorConstants.primaryTextColor,
+                  ),
                 ),
               ),
               SizedBox(height: 20),

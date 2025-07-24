@@ -26,3 +26,23 @@ final userNameProvider = StateProvider<String?>((ref) {
 final userEmailProvider = StateProvider<String?>((ref) {
   return null;
 });
+
+//register
+final registerErrorProvider = StateProvider<String?>((ref) {
+  return null;
+});
+final registerEmailProvider = StateProvider<String>((ref) {
+  return '';
+});
+final registerPasswordProvider = StateProvider<String>((ref) {
+  return '';
+});
+final registerNumberProvider = StateProvider<String>((ref) {
+  return '';
+});
+final registerConfirmPasswordProvider = StateProvider<String>((ref) {
+  return '';
+});
+final registrationCodeProvider = StateProvider<String>((ref) {
+  return '';
+});

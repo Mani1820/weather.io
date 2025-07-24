@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:weather_app/screens/Errors/amplify_error_screen.dart';
@@ -17,7 +18,7 @@ Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await configureAmplify();
-    runApp(ProviderScope(child: const MyApp()));
+    runApp(Phoenix(child: ProviderScope(child: const MyApp())));
   } on AmplifyException catch (e) {
     runApp(ProviderScope(child: AmplifyErrorScreen(error: e.message)));
   }
